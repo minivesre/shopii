@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\Pembelian;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -12,11 +13,14 @@ class ProdukController extends Controller
     {
         // Mengambil semua data produk
         $produks = Produk::all();
+
         // Mengirim data ke tampilan
         return view('adminHome', ['produks' => $produks]);
     }
 
-    public function create() {
+    // Menampilkan form tambah produk
+    public function create()
+    {
         return view('produk.create');
     }
 
@@ -24,16 +28,16 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kode_produk' => 'required|unique:produks', // Sesuaikan dengan nama tabel produk
+            'kode_produk' => 'required|unique:produks',
             'nama' => 'required',
             'harga' => 'required',
         ]);
 
         // Membuat produk baru
         Produk::create($request->all());
-        
-        // Redirect ke halaman adminHome dengan pesan sukses
-        return redirect()->route('adminHome')
+
+        // Redirect ke halaman /admin/home dengan pesan sukses
+        return redirect('/admin/home')
             ->with('success', 'Produk berhasil ditambahkan');
     }
 
@@ -42,7 +46,7 @@ class ProdukController extends Controller
     {
         // Mencari produk berdasarkan ID
         $produk = Produk::find($id);
-        
+
         // Mengirim data produk ke tampilan edit
         return view('produk.edit', compact('produk'));
     }
@@ -58,12 +62,12 @@ class ProdukController extends Controller
 
         // Mencari produk berdasarkan ID
         $produk = Produk::find($id);
-        
+
         // Memperbarui data produk
         $produk->update($request->all());
 
-        // Redirect ke halaman adminHome dengan pesan sukses
-        return redirect()->route('adminHome')
+        // Redirect ke halaman /admin/home dengan pesan sukses
+        return redirect('/admin/home')
             ->with('success', 'Produk berhasil diperbarui');
     }
 
@@ -72,12 +76,12 @@ class ProdukController extends Controller
     {
         // Mencari produk berdasarkan ID
         $produk = Produk::find($id);
-        
+
         // Menghapus produk
         $produk->delete();
-        
-        // Redirect ke halaman adminHome dengan pesan sukses
-        return redirect()->route('adminHome')
+
+        // Redirect ke halaman /admin/home dengan pesan sukses
+        return redirect('/admin/home')
             ->with('success', 'Produk berhasil dihapus');
     }
 }

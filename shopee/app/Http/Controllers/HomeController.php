@@ -24,6 +24,6 @@ class HomeController extends Controller
     {
         $produks = Produk::all();
         // Mengirim data ke tampilan
-        return view('adminHome', ['produks' => $produks]);
+        return view('admin.home', ['produks' => $produks]);
     }
 }
